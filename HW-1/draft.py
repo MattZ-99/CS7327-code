@@ -1,35 +1,28 @@
-import os
+from Dataset.dataset_min_max import load_data
 import numpy as np
+import copy
 
 
-def seed_everything(seed: int = 0):
-    import random, os
-    import numpy as np
-    import torch
+class A(object):
+    e1 = 1
 
-    random.seed(seed)
-    os.environ['PYTHONHASHSEED'] = str(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = True
+    def __init__(self):
+        print("Create A.")
+        self.e2 = 1
+
+    def __eq__(self, other):
+        return A()
 
 
-def load_data(data_dir="./data/"):
-    data_file_list = ["two_spiral_train_data-1.txt", "two_spiral_test_data-1.txt"]
-    data = list()
-    for file_name in data_file_list:
-        with open(os.path.join(data_dir, file_name), 'r') as file:
-            content = file.readlines()
-            content = [c.rstrip().split() for c in content]
-            str2float = lambda cnt: [float(c) for c in cnt]
-            content = [str2float(cnt) for cnt in content]
-            data.append(np.array(content))
-    return data[0], data[1]
+def draft(b: A):
+    b.e1 = 2
+    b.e2 = 3
 
 
 if __name__ == "__main__":
-    train_data, test_data = load_data()
-    # print(train_data.shape, test_data.shape)
-    print(train_data)
+    a = A()
+    print(a.e1, a.e2)
+    draft(a)
+    print(a.e1, a.e2)
+    b = a
+    print(b.e1, b.e2)
